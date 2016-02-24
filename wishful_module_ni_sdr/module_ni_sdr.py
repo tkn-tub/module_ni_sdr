@@ -29,12 +29,10 @@ class NiSdrModule(wishful_module.AgentUpiModule):
         self.MSG_UDP_TX_PORT = 12345
         self.MSG_UDP_RX_PORT = 12346
 
-    @wishful_module.bind_function(upis.net.gen_80211_l2_link_probing)
-    def gen_80211_l2_link_probing(self, iface, num_packets, pinter, ipdst, ipsrc):
+    @wishful_module.bind_function(upis.net.gen_layer2_traffic)
+    def gen_layer2_traffic(self, iface, num_packets, pinter, **kwargs):
 
         #iface = myargs["iface"]
-        #ipdst = myargs["ipdst"]
-        #ipsrc = myargs["ipsrc"]
 
         self.log.info('gen80211L2LinkProbing()')
         # get my MAC HW address
@@ -58,14 +56,12 @@ class NiSdrModule(wishful_module.AgentUpiModule):
             sock.sendto(MESSAGE, (self.MSG_UDP_IP, self.MSG_UDP_TX_PORT))
             time.sleep(pinter)
 
-    @wishful_module.bind_function(upis.net.sniff_80211_l2_link_probing)
-    def sniff_80211_l2_link_probing(self, iface, ipdst, ipsrc, sniff_timeout):
+    @wishful_module.bind_function(upis.net.sniff_layer2_traffic)
+    def sniff_layer2_traffic(self, iface, sniff_timeout):
 
         #iface = myargs["iface"]
-        #ipdst = myargs["ipdst"]
-        #ipsrc = myargs["ipsrc"]
 
-        self.log.info('sniff80211L2LinkProbing()')
+        self.log.info('sniff_layer2_traffic()')
 
         BUFFER_SZ = 4096
 
