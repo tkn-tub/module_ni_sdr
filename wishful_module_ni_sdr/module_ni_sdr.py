@@ -21,9 +21,9 @@ TODO:
 """
 
 @wishful_module.build_module
-class NiSdrModule(wishful_module.AgentUpiModule):
-    def __init__(self, agentPort=None):
-        super(NiSdrModule, self).__init__(agentPort)
+class NiSdrModule(wishful_module.AgentModule):
+    def __init__(self):
+        super(NiSdrModule, self).__init__()
         self.log = logging.getLogger('wifi_module.main')
         self.MSG_UDP_IP = "127.0.0.1"
         self.MSG_UDP_TX_PORT = 12345
