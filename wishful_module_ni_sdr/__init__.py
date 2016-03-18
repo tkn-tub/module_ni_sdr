@@ -1,1 +1,1 @@
-from module_ni_sdr import *
+from .module_ni_sdr import *
