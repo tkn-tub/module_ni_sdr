@@ -8,13 +8,13 @@ import socket
 import datetime
 import thread
 
-__author__ = "Piotr Gawlowicz, Anatolij Zubow"
+__author__ = "Anatolij Zubow, Piotr Gawlowicz"
 __copyright__ = "Copyright (c) 2015, Technische Universität Berlin"
 __version__ = "0.1.0"
-__email__ = "{gawlowicz, zubow}@tkn.tu-berlin.de"
+__email__ = "{zubow,gawlowicz}@tkn.tu-berlin.de"
 
 """
-Implementation of UPI_R and UPI_N interfaces for the IEEE 802.11 SDR platform from National Instruments (NI).
+Module for IEEE 802.11 SDR platform from National Instruments (NI).
 
 TODO:
 - automatic bitfile downloading
@@ -24,7 +24,7 @@ TODO:
 class NiSdrModule(wishful_module.AgentModule):
     def __init__(self):
         super(NiSdrModule, self).__init__()
-        self.log = logging.getLogger('wifi_module.main')
+        self.log = logging.getLogger('NiSdrModule')
         self.MSG_UDP_IP = "127.0.0.1"
         self.MSG_UDP_TX_PORT = 12345
         self.MSG_UDP_RX_PORT = 12346
