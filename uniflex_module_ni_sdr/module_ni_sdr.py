@@ -1,12 +1,10 @@
 import logging
-import random
-import wishful_upis as upis
-import wishful_framework as wishful_module
 import time
-import logging
 import socket
 import datetime
 import thread
+import wishful_upis as upis
+from uniflex.core import modules
 
 __author__ = "Anatolij Zubow, Piotr Gawlowicz"
 __copyright__ = "Copyright (c) 2015, Technische Universität Berlin"
@@ -20,8 +18,9 @@ TODO:
 - automatic bitfile downloading
 """
 
-@wishful_module.build_module
-class NiSdrModule(wishful_module.AgentModule):
+
+@modules.build_module
+class NiSdrModule(modules.AgentModule):
     def __init__(self):
         super(NiSdrModule, self).__init__()
         self.log = logging.getLogger('NiSdrModule')
@@ -29,10 +28,8 @@ class NiSdrModule(wishful_module.AgentModule):
         self.MSG_UDP_TX_PORT = 12345
         self.MSG_UDP_RX_PORT = 12346
 
-    @wishful_module.bind_function(upis.net.gen_layer2_traffic)
+    @modules.bind_function(upis.net.gen_layer2_traffic)
     def gen_layer2_traffic(self, iface, num_packets, pinter, **kwargs):
-
-        #iface = myargs["iface"]
 
         self.log.info('gen80211L2LinkProbing()')
         # get my MAC HW address
@@ -49,17 +46,15 @@ class NiSdrModule(wishful_module.AgentModule):
         self.log.info("UDP target port: %d" % self.MSG_UDP_TX_PORT)
         self.log.info("message len: %d" % len(MESSAGE))
 
-        sock = socket.socket(socket.AF_INET, # Internet
-                             socket.SOCK_DGRAM) # UDP
+        sock = socket.socket(socket.AF_INET,  # Internet
+                             socket.SOCK_DGRAM)  # UDP
 
         for pi in range(num_packets):
             sock.sendto(MESSAGE, (self.MSG_UDP_IP, self.MSG_UDP_TX_PORT))
             time.sleep(pinter)
 
-    @wishful_module.bind_function(upis.net.sniff_layer2_traffic)
+    @modules.bind_function(upis.net.sniff_layer2_traffic)
     def sniff_layer2_traffic(self, iface, sniff_timeout):
-
-        #iface = myargs["iface"]
 
         self.log.info('sniff_layer2_traffic()')
 
@@ -67,13 +62,14 @@ class NiSdrModule(wishful_module.AgentModule):
 
         rx_pkts = {}
         rx_pkts['res'] = 0
+
         def ip_monitor_callback():
-            sock = socket.socket(socket.AF_INET, # Internet
-                                 socket.SOCK_DGRAM) # UDP
+            sock = socket.socket(socket.AF_INET,  # Internet
+                                 socket.SOCK_DGRAM)  # UDP
             sock.bind((self.MSG_UDP_IP, self.MSG_UDP_RX_PORT))
 
             while True:
-                data, addr = sock.recvfrom(BUFFER_SZ) # buffer size is 1024 bytes
+                data, addr = sock.recvfrom(BUFFER_SZ)
                 rx_pkts['res'] = rx_pkts['res'] + 1
 
         thread.start_new_thread(ip_monitor_callback, ())
