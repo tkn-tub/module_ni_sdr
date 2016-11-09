@@ -12,8 +12,7 @@ Local test of R&S module.
 '''
 
 
-@modules.build_module
-class NiSDRController(modules.ControllerModule):
+class NiSDRController(modules.ControlApplication):
     def __init__(self):
         super(NiSDRController, self).__init__()
         self.log = logging.getLogger('NiSDRController')

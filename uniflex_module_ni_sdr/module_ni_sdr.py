@@ -19,8 +19,7 @@ TODO:
 """
 
 
-@modules.build_module
-class NiSdrModule(modules.AgentModule):
+class NiSdrModule(modules.DeviceModule):
     def __init__(self):
         super(NiSdrModule, self).__init__()
         self.log = logging.getLogger('NiSdrModule')
@@ -33,8 +32,8 @@ class NiSdrModule(modules.AgentModule):
 
         self.log.info('gen80211L2LinkProbing()')
         # get my MAC HW address
-        #myMacAddr = self.getHwAddr({'iface': iface})
-        #dstMacAddr = 'ff:ff:ff:ff:ff:ff'
+        # myMacAddr = self.getHwAddr({'iface': iface})
+        # dstMacAddr = 'ff:ff:ff:ff:ff:ff'
 
         if num_packets > 255:
             num_packets = 255
