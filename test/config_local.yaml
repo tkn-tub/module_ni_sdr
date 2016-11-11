@@ -1,12 +1,12 @@
 ## UniFlex Agent config file
 
-agent_config:
+config:
   name: 'Local_Controller'
   info: 'local test of 802.11 SDR platform from NI'
   type: 'local'
   iface: 'lo'
 
-controllers:
+control_applications:
   myController:
       file : local_test.py
       class_name : NiSDRController
