@@ -3,7 +3,8 @@ import time
 import socket
 import datetime
 import thread
-import wishful_upis as upis
+
+from sbi.radio_device.net_device import RadioNetDevice
 from uniflex.core import modules
 
 __author__ = "Anatolij Zubow, Piotr Gawlowicz"
@@ -19,7 +20,7 @@ TODO:
 """
 
 
-class NiSdrModule(modules.DeviceModule):
+class NiSdrModule(modules.DeviceModule, RadioNetDevice):
     def __init__(self):
         super(NiSdrModule, self).__init__()
         self.log = logging.getLogger('NiSdrModule')
@@ -27,7 +28,6 @@ class NiSdrModule(modules.DeviceModule):
         self.MSG_UDP_TX_PORT = 12345
         self.MSG_UDP_RX_PORT = 12346
 
-    @modules.bind_function(upis.net.gen_layer2_traffic)
     def gen_layer2_traffic(self, iface, num_packets, pinter, **kwargs):
 
         self.log.info('gen80211L2LinkProbing()')
@@ -52,7 +52,6 @@ class NiSdrModule(modules.DeviceModule):
             sock.sendto(MESSAGE, (self.MSG_UDP_IP, self.MSG_UDP_TX_PORT))
             time.sleep(pinter)
 
-    @modules.bind_function(upis.net.sniff_layer2_traffic)
     def sniff_layer2_traffic(self, iface, sniff_timeout):
 
         self.log.info('sniff_layer2_traffic()')
